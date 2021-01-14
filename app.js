@@ -3,11 +3,14 @@ window.addEventListener("load", () => {
   let long;
   const locality = document.querySelector(".locality");
   const tempValue = document.querySelector(".temp-value p");
+  const tempUnit = document.querySelector(".temp-value span");
+  const tempDiv = document.querySelector(".temp-value");
   const tempDescription = document.querySelector(".temp-description p");
   const searchInput = document.getElementById("searchInput");
   const searchButton = document.getElementById("searchButton");
   const tempIcon = document.querySelector("#weatherlogo");
-  let iconFile;
+  // console.log(tempUnit.textContent);
+  // let iconFile;
 
   searchButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -21,21 +24,32 @@ window.addEventListener("load", () => {
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=931eea13890382105ce88fbe8b88e09e`
       );
       const weatherData = await response.json();
-      console.log(weatherData);
+      // console.log(weatherData);
       const { name } = weatherData;
       const { feels_like } = weatherData.main;
       const { id, main } = weatherData.weather[0];
       locality.textContent = name;
       tempDescription.textContent = main;
       tempValue.textContent = Math.floor(feels_like - 273);
+      const tempDiv = document.querySelector(".temp-value");
 
-      if (id < 300 && id > 200) {
+      tempDiv.addEventListener("click", () => {
+        if (tempUnit.textContent === "°C") {
+          tempUnit.textContent = "°F";
+          tempValue.textContent = Math.floor(feels_like);
+        } else {
+          tempUnit.textContent = "°C";
+          tempValue.textContent = Math.floor(feels_like - 273);
+        }
+      });
+
+      if (id == 300 || (id < 300 && id > 200) || id == 200) {
         tempIcon.src = "./icons/storm.png";
-      } else if (id < 500 && id > 300) {
+      } else if ((id < 500 && id > 300) || id == 200) {
         tempIcon.src = "./icons/drizle.png";
-      } else if (id < 600 && id > 500) {
+      } else if (id == 600 || (id < 600 && id > 500) || id == 500) {
         tempIcon.src = "./icons/rainy.png";
-      } else if (id < 700 && id > 600) {
+      } else if (id == 700 || (id < 700 && id > 600)) {
         tempIcon.src = "./icons/snowflakes.png";
       } else if (id < 800 && id > 700) {
         tempIcon.src = "./icons/mist.png";
@@ -45,7 +59,7 @@ window.addEventListener("load", () => {
         tempIcon.src = "./icons/clouds.png";
       }
     } catch (error) {
-      alert("Ooop!...Something went wrong!");
+      alert("Ooop!...Invalid City Name!");
     }
   };
 
@@ -67,13 +81,13 @@ window.addEventListener("load", () => {
           tempDescription.textContent = main;
           tempValue.textContent = Math.floor(feels_like - 273);
 
-          if (id < 300 && id > 200) {
+          if (id == 300 || (id < 300 && id > 200) || id == 200) {
             tempIcon.src = "./icons/storm.png";
-          } else if (id < 500 && id > 300) {
+          } else if ((id < 500 && id > 300) || id == 200) {
             tempIcon.src = "./icons/drizle.png";
-          } else if (id < 600 && id > 500) {
+          } else if (id == 600 || (id < 600 && id > 500) || id == 500) {
             tempIcon.src = "./icons/rainy.png";
-          } else if (id < 700 && id > 600) {
+          } else if (id == 700 || (id < 700 && id > 600)) {
             tempIcon.src = "./icons/snowflakes.png";
           } else if (id < 800 && id > 700) {
             tempIcon.src = "./icons/mist.png";
@@ -82,6 +96,16 @@ window.addEventListener("load", () => {
           } else if (id > 800) {
             tempIcon.src = "./icons/clouds.png";
           }
+
+          tempDiv.addEventListener("click", () => {
+            if (tempUnit.textContent === "°C") {
+              tempUnit.textContent = "°F";
+              tempValue.textContent = Math.floor(feels_like);
+            } else {
+              tempUnit.textContent = "°C";
+              tempValue.textContent = Math.floor(feels_like - 273);
+            }
+          });
         });
     });
   }

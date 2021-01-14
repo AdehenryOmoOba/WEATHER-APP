@@ -69,6 +69,7 @@ body {
 }
 .temp-value {
   display: flex;
+  cursor: pointer;
 }
 .weather-container {
   display: flex;
